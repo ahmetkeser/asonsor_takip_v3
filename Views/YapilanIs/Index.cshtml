@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@model IEnumerable<AsansorTakipV3.Models.Hizmet>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Bakımı Devam Eden Hizmetler</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @*<div class="form-group">
+                            <a class="btn btn-primary" href="@Url.Action("HizmetEkle", "Musteriler", new {Id= Model.Id})">
+                                Yeni Hizmet
+                            </a>
+                        </div>*@
+                    <table width="100" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <tr>
+                            <th>Hizmet Numarası</th>
+                            <th>Müşteri</th>
+                            <th>Kayit Tarihi</th>
+                            <th>Marka</th>
+                            <th>Model</th>
+                            <th>Aciklama</th>
+                            @*<th>Durumu</th>*@
+                            <th>Toplam Ücret</th>
+                            <th>Düzenle</th>
+                            <th>Yapılan İşlemler</th>
+                            <th>Sil</th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            if (item.Durumu == 1)
+                            {
+                                <tr class="odd gradeX">
+                                    <td>@item.Id</td>
+                                    <td>@item.Musteri.Adi</td>
+                                    <td>@item.KayitTarihi</td>
+                                    <td>@item.Sinif.Marka.Adi</td>
+                                    <td>@item.Sinif.Adi</td>
+                                    <td>@item.Aciklama</td>
+                                    <td>@item.Ucret</td>
+                                    <td><a href="@Url.Action("HizmetDetay", "Musteriler", new { Id = item.Id , Musteri=item.Musteri_Id})"><i class="icon icon-edit"></i></a></td>
+                                    <td><a href="@Url.Action("Detay", "YapilanIs", new { HizmetNo=item.Id})"><i class="icon icon-tools"></i></a></td>
+                                    <td><a href="@Url.Action("HizmetSil", "Musteriler", new { Id = item.Id })"><i class="icon icon-delete"></i></a></td>
+                                </tr>
+                            }
+
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

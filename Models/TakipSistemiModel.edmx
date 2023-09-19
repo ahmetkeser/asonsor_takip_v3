@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TakipSistemiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Hizmet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KayitTarihi" Type="datetime" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
+          <Property Name="Durumu" Type="int" Nullable="false" />
+          <Property Name="Musteri_Id" Type="int" Nullable="false" />
+          <Property Name="Sinif_Id" Type="int" Nullable="false" />
+          <Property Name="Ucret" Type="float" />
+        </EntityType>
+        <EntityType Name="HizmetResim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Hizmet_Id" Type="int" Nullable="false" />
+          <Property Name="ResimAdres" Type="nvarchar" MaxLength="90" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sifre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Durumu" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Marka">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Musteri">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Soyadi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefon" Type="int" Nullable="false" />
+          <Property Name="Adres" Type="nvarchar" MaxLength="100" />
+          <Property Name="Durumu" Type="int" Nullable="false" />
+          <Property Name="Resim" Type="nvarchar" MaxLength="75" />
+        </EntityType>
+        <EntityType Name="Sinif">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Marka_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="YapilanIs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Resim" Type="nvarchar" MaxLength="90" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+          <Property Name="Durumu" Type="int" Nullable="false" />
+          <Property Name="Hizmet_Id" Type="int" Nullable="false" />
+          <Property Name="Maliyet" Type="float" />
+        </EntityType>
+        <Association Name="FK_Hizmet_Musteri">
+          <End Role="Musteri" Type="Self.Musteri" Multiplicity="1" />
+          <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musteri">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hizmet">
+              <PropertyRef Name="Musteri_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hizmet_Sinif">
+          <End Role="Sinif" Type="Self.Sinif" Multiplicity="1" />
+          <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sinif">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hizmet">
+              <PropertyRef Name="Sinif_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sinif_Marka">
+          <End Role="Marka" Type="Self.Marka" Multiplicity="1" />
+          <End Role="Sinif" Type="Self.Sinif" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marka">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sinif">
+              <PropertyRef Name="Marka_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YapilanIs_Hizmet">
+          <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="1" />
+          <End Role="YapilanIs" Type="Self.YapilanIs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hizmet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="YapilanIs">
+              <PropertyRef Name="Hizmet_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TakipSistemiModelStoreContainer">
+          <EntitySet Name="Hizmet" EntityType="Self.Hizmet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HizmetResim" EntityType="Self.HizmetResim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marka" EntityType="Self.Marka" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sinif" EntityType="Self.Sinif" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YapilanIs" EntityType="Self.YapilanIs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Hizmet_Musteri" Association="Self.FK_Hizmet_Musteri">
+            <End Role="Musteri" EntitySet="Musteri" />
+            <End Role="Hizmet" EntitySet="Hizmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hizmet_Sinif" Association="Self.FK_Hizmet_Sinif">
+            <End Role="Sinif" EntitySet="Sinif" />
+            <End Role="Hizmet" EntitySet="Hizmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sinif_Marka" Association="Self.FK_Sinif_Marka">
+            <End Role="Marka" EntitySet="Marka" />
+            <End Role="Sinif" EntitySet="Sinif" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YapilanIs_Hizmet" Association="Self.FK_YapilanIs_Hizmet">
+            <End Role="Hizmet" EntitySet="Hizmet" />
+            <End Role="YapilanIs" EntitySet="YapilanIs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TakipSistemiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Hizmet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Durumu" Type="Int32" Nullable="false" />
+          <Property Name="Musteri_Id" Type="Int32" Nullable="false" />
+          <Property Name="Sinif_Id" Type="Int32" Nullable="false" />
+          <Property Name="Ucret" Type="Double" />
+          <NavigationProperty Name="Musteri" Relationship="Self.FK_Hizmet_Musteri" FromRole="Hizmet" ToRole="Musteri" />
+          <NavigationProperty Name="Sinif" Relationship="Self.FK_Hizmet_Sinif" FromRole="Hizmet" ToRole="Sinif" />
+          <NavigationProperty Name="YapilanIs" Relationship="Self.FK_YapilanIs_Hizmet" FromRole="Hizmet" ToRole="YapilanIs" />
+        </EntityType>
+        <EntityType Name="HizmetResim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hizmet_Id" Type="Int32" Nullable="false" />
+          <Property Name="ResimAdres" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Durumu" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Marka">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Sinif" Relationship="Self.FK_Sinif_Marka" FromRole="Marka" ToRole="Sinif" />
+        </EntityType>
+        <EntityType Name="Musteri">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Soyadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefon" Type="Int32" Nullable="false" />
+          <Property Name="Adres" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Durumu" Type="Int32" Nullable="false" />
+          <Property Name="Resim" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hizmet" Relationship="Self.FK_Hizmet_Musteri" FromRole="Musteri" ToRole="Hizmet" />
+        </EntityType>
+        <EntityType Name="Sinif">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Marka_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Hizmet" Relationship="Self.FK_Hizmet_Sinif" FromRole="Sinif" ToRole="Hizmet" />
+          <NavigationProperty Name="Marka" Relationship="Self.FK_Sinif_Marka" FromRole="Sinif" ToRole="Marka" />
+        </EntityType>
+        <EntityType Name="YapilanIs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Resim" Type="String" MaxLength="90" FixedLength="false" Unicode="true" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Durumu" Type="Int32" Nullable="false" />
+          <Property Name="Hizmet_Id" Type="Int32" Nullable="false" />
+          <Property Name="Maliyet" Type="Double" />
+          <NavigationProperty Name="Hizmet" Relationship="Self.FK_YapilanIs_Hizmet" FromRole="YapilanIs" ToRole="Hizmet" />
+        </EntityType>
+        <Association Name="FK_Hizmet_Musteri">
+          <End Role="Musteri" Type="Self.Musteri" Multiplicity="1" />
+          <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Musteri">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hizmet">
+              <PropertyRef Name="Musteri_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hizmet_Sinif">
+          <End Role="Sinif" Type="Self.Sinif" Multiplicity="1" />
+          <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sinif">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hizmet">
+              <PropertyRef Name="Sinif_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YapilanIs_Hizmet">
+          <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="1" />
+          <End Role="YapilanIs" Type="Self.YapilanIs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hizmet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="YapilanIs">
+              <PropertyRef Name="Hizmet_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sinif_Marka">
+          <End Role="Marka" Type="Self.Marka" Multiplicity="1" />
+          <End Role="Sinif" Type="Self.Sinif" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marka">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sinif">
+              <PropertyRef Name="Marka_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TakipSistemiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Hizmet" EntityType="Self.Hizmet" />
+          <EntitySet Name="HizmetResim" EntityType="Self.HizmetResim" />
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" />
+          <EntitySet Name="Marka" EntityType="Self.Marka" />
+          <EntitySet Name="Musteri" EntityType="Self.Musteri" />
+          <EntitySet Name="Sinif" EntityType="Self.Sinif" />
+          <EntitySet Name="YapilanIs" EntityType="Self.YapilanIs" />
+          <AssociationSet Name="FK_Hizmet_Musteri" Association="Self.FK_Hizmet_Musteri">
+            <End Role="Musteri" EntitySet="Musteri" />
+            <End Role="Hizmet" EntitySet="Hizmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hizmet_Sinif" Association="Self.FK_Hizmet_Sinif">
+            <End Role="Sinif" EntitySet="Sinif" />
+            <End Role="Hizmet" EntitySet="Hizmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YapilanIs_Hizmet" Association="Self.FK_YapilanIs_Hizmet">
+            <End Role="Hizmet" EntitySet="Hizmet" />
+            <End Role="YapilanIs" EntitySet="YapilanIs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sinif_Marka" Association="Self.FK_Sinif_Marka">
+            <End Role="Marka" EntitySet="Marka" />
+            <End Role="Sinif" EntitySet="Sinif" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TakipSistemiModelStoreContainer" CdmEntityContainer="TakipSistemiEntities">
+          <EntitySetMapping Name="Hizmet">
+            <EntityTypeMapping TypeName="TakipSistemiModel.Hizmet">
+              <MappingFragment StoreEntitySet="Hizmet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Durumu" ColumnName="Durumu" />
+                <ScalarProperty Name="Musteri_Id" ColumnName="Musteri_Id" />
+                <ScalarProperty Name="Sinif_Id" ColumnName="Sinif_Id" />
+                <ScalarProperty Name="Ucret" ColumnName="Ucret" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HizmetResim">
+            <EntityTypeMapping TypeName="TakipSistemiModel.HizmetResim">
+              <MappingFragment StoreEntitySet="HizmetResim">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Hizmet_Id" ColumnName="Hizmet_Id" />
+                <ScalarProperty Name="ResimAdres" ColumnName="ResimAdres" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kullanici">
+            <EntityTypeMapping TypeName="TakipSistemiModel.Kullanici">
+              <MappingFragment StoreEntitySet="Kullanici">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="Durumu" ColumnName="Durumu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marka">
+            <EntityTypeMapping TypeName="TakipSistemiModel.Marka">
+              <MappingFragment StoreEntitySet="Marka">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Musteri">
+            <EntityTypeMapping TypeName="TakipSistemiModel.Musteri">
+              <MappingFragment StoreEntitySet="Musteri">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="Soyadi" ColumnName="Soyadi" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="Durumu" ColumnName="Durumu" />
+                <ScalarProperty Name="Resim" ColumnName="Resim" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sinif">
+            <EntityTypeMapping TypeName="TakipSistemiModel.Sinif">
+              <MappingFragment StoreEntitySet="Sinif">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="Marka_Id" ColumnName="Marka_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YapilanIs">
+            <EntityTypeMapping TypeName="TakipSistemiModel.YapilanIs">
+              <MappingFragment StoreEntitySet="YapilanIs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Resim" ColumnName="Resim" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Durumu" ColumnName="Durumu" />
+                <ScalarProperty Name="Hizmet_Id" ColumnName="Hizmet_Id" />
+                <ScalarProperty Name="Maliyet" ColumnName="Maliyet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "SinifDetay";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@model AsansorTakipV3.Models.Sinif
+<div class="gtco-section border-bottom">
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="col-md-12 animate-box">
+                    <h3>Model</h3>
+                    <form method="post">
+                        @if (Model.Id == 0)
+                        {
+                            <div class="form-group">
+                                <a href="@Url.Action("Sinif","Envanter")"><input type="submit" class="btn btn-primary" value="Yeni Kayit"></a>
+                            </div>
+                        }
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Adı</label>
+                                <input type="text" id="Adi" class="form-control" placeholder="Adi" value="@Model.Adi" name="Adi">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Kaydet - Güncelle" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

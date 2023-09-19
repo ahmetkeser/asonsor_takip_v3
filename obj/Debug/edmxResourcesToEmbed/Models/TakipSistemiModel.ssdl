@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TakipSistemiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Hizmet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KayitTarihi" Type="datetime" Nullable="false" />
+    <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
+    <Property Name="Durumu" Type="int" Nullable="false" />
+    <Property Name="Musteri_Id" Type="int" Nullable="false" />
+    <Property Name="Sinif_Id" Type="int" Nullable="false" />
+    <Property Name="Ucret" Type="float" />
+  </EntityType>
+  <EntityType Name="HizmetResim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Hizmet_Id" Type="int" Nullable="false" />
+    <Property Name="ResimAdres" Type="nvarchar" MaxLength="90" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Kullanici">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Sifre" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Durumu" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Marka">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Musteri">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Soyadi" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Telefon" Type="int" Nullable="false" />
+    <Property Name="Adres" Type="nvarchar" MaxLength="100" />
+    <Property Name="Durumu" Type="int" Nullable="false" />
+    <Property Name="Resim" Type="nvarchar" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="Sinif">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Adi" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Marka_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="YapilanIs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Resim" Type="nvarchar" MaxLength="90" />
+    <Property Name="Tarih" Type="datetime" Nullable="false" />
+    <Property Name="Durumu" Type="int" Nullable="false" />
+    <Property Name="Hizmet_Id" Type="int" Nullable="false" />
+    <Property Name="Maliyet" Type="float" />
+  </EntityType>
+  <Association Name="FK_Hizmet_Musteri">
+    <End Role="Musteri" Type="Self.Musteri" Multiplicity="1" />
+    <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Musteri">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hizmet">
+        <PropertyRef Name="Musteri_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Hizmet_Sinif">
+    <End Role="Sinif" Type="Self.Sinif" Multiplicity="1" />
+    <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sinif">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hizmet">
+        <PropertyRef Name="Sinif_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sinif_Marka">
+    <End Role="Marka" Type="Self.Marka" Multiplicity="1" />
+    <End Role="Sinif" Type="Self.Sinif" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marka">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sinif">
+        <PropertyRef Name="Marka_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_YapilanIs_Hizmet">
+    <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="1" />
+    <End Role="YapilanIs" Type="Self.YapilanIs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hizmet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="YapilanIs">
+        <PropertyRef Name="Hizmet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TakipSistemiModelStoreContainer">
+    <EntitySet Name="Hizmet" EntityType="Self.Hizmet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HizmetResim" EntityType="Self.HizmetResim" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Marka" EntityType="Self.Marka" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sinif" EntityType="Self.Sinif" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="YapilanIs" EntityType="Self.YapilanIs" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Hizmet_Musteri" Association="Self.FK_Hizmet_Musteri">
+      <End Role="Musteri" EntitySet="Musteri" />
+      <End Role="Hizmet" EntitySet="Hizmet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Hizmet_Sinif" Association="Self.FK_Hizmet_Sinif">
+      <End Role="Sinif" EntitySet="Sinif" />
+      <End Role="Hizmet" EntitySet="Hizmet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sinif_Marka" Association="Self.FK_Sinif_Marka">
+      <End Role="Marka" EntitySet="Marka" />
+      <End Role="Sinif" EntitySet="Sinif" />
+    </AssociationSet>
+    <AssociationSet Name="FK_YapilanIs_Hizmet" Association="Self.FK_YapilanIs_Hizmet">
+      <End Role="Hizmet" EntitySet="Hizmet" />
+      <End Role="YapilanIs" EntitySet="YapilanIs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

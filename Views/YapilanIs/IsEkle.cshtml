@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "IsEkle";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+@model AsansorTakipV3.Models.Hizmet
+
+<div class="gtco-section border-bottom">
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="col-md-12 animate-box">
+                    <h3>İş Kaydı - @Model.Musteri.Adi</h3>
+                    <form method="post">
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Açıklama</label>
+                                <textarea name="Aciklama" id="Aciklama" cols="30" rows="10" class="form-control" placeholder="Aciklama"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Resim</label>
+                                <input type="text" id="Resim" class="form-control" placeholder="Resim" value="" name="Resim">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Tarih</label>
+                                <input type="date" id="Tarih" class="form-control" placeholder="Tarih" value="" name="Tarih">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Durumu</label>
+                                <select name="Durumu">
+                                    <option value="1"> aktif</option>
+                                    <option value="0"> Pasif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <input type="hidden" id="Hizmet_Id" class="form-control" value="@Model.Id" name="Hizmet_Id">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Kaydet - Güncelle" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

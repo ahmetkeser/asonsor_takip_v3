@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TakipSistemiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Hizmet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Durumu" Type="Int32" Nullable="false" />
+    <Property Name="Musteri_Id" Type="Int32" Nullable="false" />
+    <Property Name="Sinif_Id" Type="Int32" Nullable="false" />
+    <Property Name="Ucret" Type="Double" />
+    <NavigationProperty Name="Musteri" Relationship="Self.FK_Hizmet_Musteri" FromRole="Hizmet" ToRole="Musteri" />
+    <NavigationProperty Name="Sinif" Relationship="Self.FK_Hizmet_Sinif" FromRole="Hizmet" ToRole="Sinif" />
+    <NavigationProperty Name="YapilanIs" Relationship="Self.FK_YapilanIs_Hizmet" FromRole="Hizmet" ToRole="YapilanIs" />
+  </EntityType>
+  <EntityType Name="HizmetResim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Hizmet_Id" Type="Int32" Nullable="false" />
+    <Property Name="ResimAdres" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Kullanici">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Durumu" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Marka">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Sinif" Relationship="Self.FK_Sinif_Marka" FromRole="Marka" ToRole="Sinif" />
+  </EntityType>
+  <EntityType Name="Musteri">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Soyadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Telefon" Type="Int32" Nullable="false" />
+    <Property Name="Adres" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Durumu" Type="Int32" Nullable="false" />
+    <Property Name="Resim" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Hizmet" Relationship="Self.FK_Hizmet_Musteri" FromRole="Musteri" ToRole="Hizmet" />
+  </EntityType>
+  <EntityType Name="Sinif">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Marka_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Hizmet" Relationship="Self.FK_Hizmet_Sinif" FromRole="Sinif" ToRole="Hizmet" />
+    <NavigationProperty Name="Marka" Relationship="Self.FK_Sinif_Marka" FromRole="Sinif" ToRole="Marka" />
+  </EntityType>
+  <EntityType Name="YapilanIs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Resim" Type="String" MaxLength="90" FixedLength="false" Unicode="true" />
+    <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Durumu" Type="Int32" Nullable="false" />
+    <Property Name="Hizmet_Id" Type="Int32" Nullable="false" />
+    <Property Name="Maliyet" Type="Double" />
+    <NavigationProperty Name="Hizmet" Relationship="Self.FK_YapilanIs_Hizmet" FromRole="YapilanIs" ToRole="Hizmet" />
+  </EntityType>
+  <Association Name="FK_Hizmet_Musteri">
+    <End Role="Musteri" Type="Self.Musteri" Multiplicity="1" />
+    <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Musteri">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hizmet">
+        <PropertyRef Name="Musteri_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Hizmet_Sinif">
+    <End Role="Sinif" Type="Self.Sinif" Multiplicity="1" />
+    <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sinif">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hizmet">
+        <PropertyRef Name="Sinif_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_YapilanIs_Hizmet">
+    <End Role="Hizmet" Type="Self.Hizmet" Multiplicity="1" />
+    <End Role="YapilanIs" Type="Self.YapilanIs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hizmet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="YapilanIs">
+        <PropertyRef Name="Hizmet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sinif_Marka">
+    <End Role="Marka" Type="Self.Marka" Multiplicity="1" />
+    <End Role="Sinif" Type="Self.Sinif" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marka">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sinif">
+        <PropertyRef Name="Marka_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TakipSistemiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Hizmet" EntityType="Self.Hizmet" />
+    <EntitySet Name="HizmetResim" EntityType="Self.HizmetResim" />
+    <EntitySet Name="Kullanici" EntityType="Self.Kullanici" />
+    <EntitySet Name="Marka" EntityType="Self.Marka" />
+    <EntitySet Name="Musteri" EntityType="Self.Musteri" />
+    <EntitySet Name="Sinif" EntityType="Self.Sinif" />
+    <EntitySet Name="YapilanIs" EntityType="Self.YapilanIs" />
+    <AssociationSet Name="FK_Hizmet_Musteri" Association="Self.FK_Hizmet_Musteri">
+      <End Role="Musteri" EntitySet="Musteri" />
+      <End Role="Hizmet" EntitySet="Hizmet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Hizmet_Sinif" Association="Self.FK_Hizmet_Sinif">
+      <End Role="Sinif" EntitySet="Sinif" />
+      <End Role="Hizmet" EntitySet="Hizmet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_YapilanIs_Hizmet" Association="Self.FK_YapilanIs_Hizmet">
+      <End Role="Hizmet" EntitySet="Hizmet" />
+      <End Role="YapilanIs" EntitySet="YapilanIs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sinif_Marka" Association="Self.FK_Sinif_Marka">
+      <End Role="Marka" EntitySet="Marka" />
+      <End Role="Sinif" EntitySet="Sinif" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "HizmetDetay";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@model AsansorTakipV3.Models.Musteri
+<div class="gtco-section border-bottom">
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="col-md-12 animate-box">
+                    <h3>Hizmet Detayları</h3>
+
+                    <form method="post">
+                        <input type="hidden" id="Musteri_Id" class="form-control" value="@Model.Id" name="Musteri_Id">
+                        <input type="hidden" value="1" name="Durumu" />      
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Müşteri :</label>
+                                @Model.Adi
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Kayit Tarihi</label>
+                                <input type="text" id="KayitTarihi" class="form-control" placeholder="KayitTarihi" name="KayitTarihi">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Aciklama</label>
+                                <input type="text" id="Aciklama" class="form-control" placeholder="Aciklama" name="Aciklama">
+                            </div>
+                        </div>
+                        <label>Marka</label>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <select name="Sinif_Id">
+                                    @foreach (var item in ViewBag.Sinif)
+                                    {
+                                        <option value="@item.Id"> @item.Adi</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label>Ücret</label>
+                                <input type="text" id="Ucret" class="form-control" placeholder="Ucret" name="Ucret">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Kaydet - Güncelle" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
